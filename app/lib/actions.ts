@@ -1,11 +1,11 @@
 'use server';
 
-import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
 
 const FormSchema = z.object({
     id: z.string(),
@@ -120,4 +120,9 @@ export async function authenticate(
             }
         }
     }
+}
+
+export async function doSocialLogin(formData: FormData) {
+    const action: string = formData.get('action') as string
+    await signIn(action, {redirectTo: "/dashboard"});
 }
