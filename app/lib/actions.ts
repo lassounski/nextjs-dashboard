@@ -55,7 +55,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
         await sql`INSERT INTO invoices (customer_id, amount, status, date)
         VALUES (${customerId}, ${amountInCents}, ${status}, ${date})`;
     } catch (error) {
-        message: 'Database Error: Failed to create invoce'
+        message: `Database Error: Failed to create invoce - ${error}`
     }
 
     revalidatePath('/dashboard/invoices')
